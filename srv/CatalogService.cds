@@ -1,23 +1,11 @@
 using {mithra.db} from '../db/datamodel';
 
-service CatalogService @(path:'/CatalogService')
-        @(requires: 'authenticated-user'){
-    @Capabilities : { Insertable,Updatable,Deletable, }
+service CatalogService @(path:'/CatalogService'){
+    
     entity BPSet as projection on db.businesspartner;
     entity productSet as projection on db.product;
     entity AddressSet as projection on db.Address;
-    entity EmployeeSet @(restrict: [
-        {
-            grant: ['READ'],
-            to: 'Viewer',
-            where: 'bankName = $user.BankName'
-        },
-        {
-            grant: ['WRITE'],
-            to: 'Admin'
-        }
-    ])
-    as projection on db.Employee;
+    entity EmployeeSet as projection on db.Employee;
 
     entity POs @(
         title: '{i18n>poHeader}',
